@@ -1,0 +1,26 @@
+{
+  "name": "GOD.God",
+  "version": "0.0.1",
+  "description": "A JavaScript browser game.",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@github.com/ailadson/GOD.God.git"
+  },
+  "author": "Anthony Ladson",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ailadson/GOD.God/issues"
+  },
+  "homepage": "https://github.com/ailadson/GOD.God",
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-concat": "^0.5.0",
+    "grunt-contrib-sass": "^0.8.1",
+    "grunt-contrib-uglify": "^0.5.1",
+    "grunt-ftp-deploy": "^0.1.7"
+  }
+}
