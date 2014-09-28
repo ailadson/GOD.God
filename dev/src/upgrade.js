@@ -1,0 +1,3 @@
+GOD.UpgradeManager = function () {
+
+}

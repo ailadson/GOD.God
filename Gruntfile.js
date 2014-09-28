@@ -1,7 +1,8 @@
 
 module.exports = function(grunt) {
 
-	var sourceFiles = [];
+	var sourceFiles = ['dev/src/engine.js','dev/src/world.js',
+						'dev/src/stateManager.js','dev/src/states/*','dev/src/plane.js'];
 
 	//config
 	grunt.initConfig({
@@ -21,11 +22,11 @@ module.exports = function(grunt) {
 				stripBanners : true,
 				banner : '/*! <%= pkg.name %> - v<%= pkg.version %> - ' +
 					'<%= grunt.template.today("yyyy-mm-dd") %> */',
-				separator : ';'
+				separator : '\n'
 			},
 			dist : {
 				src : sourceFiles,
-	//			dest : 'dev/src/script.js'
+				dest : 'game/scripts/script.js'
 			}
 		},
 		uglify: {
