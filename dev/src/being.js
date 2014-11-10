@@ -1,3 +1,0 @@
-GOD.Being = function () {
-
-}

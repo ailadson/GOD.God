@@ -1,3 +1,0 @@
-GOD.Structure = function () {
-
-}

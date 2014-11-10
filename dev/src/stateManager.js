@@ -1,12 +1,21 @@
 GOD.StateManager = function (engine) {
+
 	this.engine = engine;
-	this.world = engine.world;
+	this.game = engine.game;
+	this.configurations = new GOD.StateConfiguration(engine);
+
 }
 
-GOD.StateManager.getState = function(pl,c,ud){
-	return {
-		preload : pl,
-		create : c,
-		update : ud
-	}
+GOD.StateManager.prototype.init = function(){
+	this.game.state.add('Boot',this.get('Boot'));
+	this.game.state.add('Preloader',this.get('Preloader'));
+	this.game.state.add('Naming',this.get('Naming'));
+	this.game.state.add('Creation',this.get('Creation'));
+	// this.game.state.add('firstWord',this.get('firstWord'));
+	// this.game.state.add('expansion',this.stateManager.get('expansion'));
+	this.game.state.start('Boot');
+}
+
+GOD.StateManager.prototype.get = function(name){
+	return this.configurations[name]();
 }

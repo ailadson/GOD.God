@@ -1,8 +1,10 @@
 
 module.exports = function(grunt) {
 
-	var sourceFiles = ['dev/src/engine.js','dev/src/world.js',
-						'dev/src/stateManager.js','dev/src/states/*','dev/src/plane.js'];
+	var sourceFiles = ['dev/src/engine.js','dev/src/world.js','dev/src/player.js','dev/src/stateManager.js',
+						'dev/src/stateConfiguration.js','dev/src/states/*','dev/src/behaviors.js',
+						'dev/src/gameElementManager.js','dev/src/hub.js','dev/src/controllerManager.js',
+						'dev/src/controllers/*'];
 
 	//config
 	grunt.initConfig({
@@ -13,7 +15,7 @@ module.exports = function(grunt) {
 					style: 'expanded'
 				},
 				files : {
-				//	'game/index.css' : 'dev/styles/main.scss'
+					'game/game.css' : 'dev/styles/game.scss'
 				}
 			}
 		},

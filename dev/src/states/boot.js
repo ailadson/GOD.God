@@ -1,17 +1,27 @@
-//Bovvkyukot
-GOD.StateManager.prototype.boot = function(game){};
-GOD.StateManager.prototype.boot.prototype = GOD.StateManager.getState(function(){
-		//phaser config
-		this.scale.forceLandscape = true;
-		//load imgs
-		this.load.image("introButton","assets/button.png");
-	},function(){
-		var button = this.add.button(this.world.centerX,this.world.centerY,"introButton",function(){
-			console.log('heyy')
-		});
-		button.anchor.x = 0.5;
+GOD.StateConfiguration.prototype.Boot = function(){
+	var self = this;
+	var game = self.game;
 
-		var text = this.add.text(this.world.centerX,this.world.centerY-50,"Play Game",{fill:"white",align:"center"});
-		text.anchor.x = 0.5
-	},function(){		
-})
+	return {
+		preload : function () {},
+
+		create : function(){
+			game.input.maxPointers = 1;
+			game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+			// game.scale.minWidth;
+			// game.scale.minHeight;
+			game.scale.pageAlignHorizontally = true;
+			game.scale.pageAlignVertically = true;
+			game.scale.forceLandscape = true;
+			game.scale.setScreenSize(true);
+
+			game.input.addPointer();
+			game.stage.backgroundColor = "#000000"
+
+			game.state.start('Preloader');
+
+		},
+
+		update : function(){}
+	}
+}
