@@ -14,6 +14,8 @@ GOD.Engine = function () {
 	this.gameElements = new GOD.GameElementManager(this);
 	this.hub = new GOD.Hub(this);
 
+	this.devMode = true;
+
 	this.init();
 }
 

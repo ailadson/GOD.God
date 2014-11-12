@@ -6,7 +6,6 @@ GOD.StateConfiguration.prototype.Creation = function(){
 	var state = new GOD.States.Creation(this);
 
 	//create()
-	console.log(self)
 	
 
 	return {
@@ -15,7 +14,7 @@ GOD.StateConfiguration.prototype.Creation = function(){
 
 		create : function(){
 			//hub
-			hub.init("creationLight");
+			hub.init("creation");
 
 			//objs
 			var text = state.createText();

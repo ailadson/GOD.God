@@ -6,6 +6,35 @@
   margin-right: auto;
 }
 
+$creation-btn-width : 10;
+$creation-btn-amount : 4;
+$creation-btn-margin : 100 - ($creation-btn-width * 2 * $creation-btn-amount);
+
+@mixin creation-btn($color) {
+  background: $color;
+  background-image: -webkit-linear-gradient(top, #ffffff, $color);
+  background-image: -moz-linear-gradient(top, #ffffff, $color);
+  background-image: -ms-linear-gradient(top, #ffffff, $color);
+  background-image: -o-linear-gradient(top, #ffffff, $color);
+  background-image: linear-gradient(to bottom, #ffffff, $color);
+  -webkit-border-radius: 60;
+  -moz-border-radius: 60;
+  border-radius: 60px;
+  text-shadow: 2px 2px 4px #41422a;
+  -webkit-box-shadow: 0px 0px 30px #ffffff;
+  -moz-box-shadow: 0px 0px 30px #ffffff;
+  box-shadow: 0px 0px 30px #ffffff;
+  font-family: Arial;
+  color: #ffffdb;
+  font-size: 20px;
+  padding: $creation-btn-width/2 * 1%;
+  text-decoration: none; 
+  margin-top: ($creation-btn-margin/2) * 1%;
+  margin-left: $creation-btn-margin * 1%;
+  margin-right: $creation-btn-margin * 1%;
+  border: 0px;
+}
+
 body{
 	margin : 0px;
 	padding : 0px;
@@ -41,32 +70,44 @@ input[type=text]{
 	text-align:center;
 }
 
-.btn-light {
-  background: #ffffff;
-  background-image: -webkit-linear-gradient(top, #ffffff, #96fcff);
-  background-image: -moz-linear-gradient(top, #ffffff, #96fcff);
-  background-image: -ms-linear-gradient(top, #ffffff, #96fcff);
-  background-image: -o-linear-gradient(top, #ffffff, #96fcff);
-  background-image: linear-gradient(to bottom, #ffffff, #96fcff);
-  -webkit-border-radius: 60;
-  -moz-border-radius: 60;
-  border-radius: 60px;
-  text-shadow: 2px 2px 4px #41422a;
-  -webkit-box-shadow: 0px 0px 30px #ffffff;
-  -moz-box-shadow: 0px 0px 30px #ffffff;
-  box-shadow: 0px 0px 30px #ffffff;
-  font-family: Arial;
-  color: #ffffdb;
-  font-size: 20px;
-  padding: 40px 21px 40px 21px;
-  text-decoration: none;
-  @include center-block;
-  margin-top: 10%;
-  border: 0px;
+.btn-createLight1 {
+  @include creation-btn(#96fcff);
 }
 
-.btn-light:hover {
-  background: #040505;
+.btn-createLight2 {
+  @include creation-btn(#CCF0CF);
+}
+
+.btn-createLight3 {
+  @include creation-btn(#EBD798);
+}
+
+.btn-createLight4 {
+  @include creation-btn(#F2A2FC);
+}
+
+.btn-createLight1:hover {
+  text-decoration: none;
+  -webkit-box-shadow: 0px 0px 30px #000000;
+  -moz-box-shadow: 0px 0px 30px #000000;
+  box-shadow: 0px 0px 30px #000000;
+}
+
+.btn-createLight2:hover {
+  text-decoration: none;
+  -webkit-box-shadow: 0px 0px 30px #000000;
+  -moz-box-shadow: 0px 0px 30px #000000;
+  box-shadow: 0px 0px 30px #000000;
+}
+
+.btn-createLight3:hover {
+  text-decoration: none;
+  -webkit-box-shadow: 0px 0px 30px #000000;
+  -moz-box-shadow: 0px 0px 30px #000000;
+  box-shadow: 0px 0px 30px #000000;
+}
+
+.btn-createLight4:hover {
   text-decoration: none;
   -webkit-box-shadow: 0px 0px 30px #000000;
   -moz-box-shadow: 0px 0px 30px #000000;

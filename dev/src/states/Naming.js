@@ -41,7 +41,9 @@ GOD.States.Naming = function(config){
 	this.textIndex = 0;
 	this.texts = ["NOW YOU ARE HERE","TELL ME"];
 	this.currentText = this.texts[this.textIndex];
-	this.introFadeOutTime = 3000;
+	this.introFadeOutTime = this.engine.devMode ?  100 : 3000;
+	this.endTweenUpTime = this.engine.devMode ? 100 : 500;
+	this.endTweenFadeTime = this.engine.devMode ? 100 : 1000;
 	this.clicked = false;
 	this.nextStateIncrement = 0;
 };
@@ -114,7 +116,7 @@ GOD.States.Naming.prototype.createEndTween = function(text){
 	var textTween = this.game.add.tween(text);
 	var self = this;
 
-	textTween.to({y: 25},500).to({ alpha : 0},1000,Phaser.Easing.Linear.None,false,300);
+	textTween.to({y: 25},this.endTweenUpTime).to({ alpha : 0},this.endTweenFadeTime,Phaser.Easing.Linear.None,false,300);
 
 	textTween.onComplete.add(function(){ 
 		self.nextState(self,text)
@@ -133,7 +135,7 @@ GOD.States.Naming.prototype.startEndAnim = function(field,endTwn){
 
 	this.engine.player.setName(field.value);
 	endTwn.start();
-	$(".naming").fadeOut(1500, function(){
+	$(".naming").fadeOut(this.endTweenUpTime + this.endTweenFadeTime, function(){
 		self.nextState(self);
 	});
 

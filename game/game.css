@@ -518,8 +518,8 @@ input[type=text] {
   text-align: center;
 }
 
-.btn-light {
-  background: #ffffff;
+.btn-createLight1 {
+  background: #96fcff;
   background-image: -webkit-linear-gradient(top, #ffffff, #96fcff);
   background-image: -moz-linear-gradient(top, #ffffff, #96fcff);
   background-image: -ms-linear-gradient(top, #ffffff, #96fcff);
@@ -535,17 +535,111 @@ input[type=text] {
   font-family: Arial;
   color: #ffffdb;
   font-size: 20px;
-  padding: 40px 21px 40px 21px;
+  padding: 5%;
   text-decoration: none;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
   margin-top: 10%;
+  margin-left: 20%;
+  margin-right: 20%;
   border: 0px;
 }
 
-.btn-light:hover {
-  background: #040505;
+.btn-createLight2 {
+  background: #CCF0CF;
+  background-image: -webkit-linear-gradient(top, #ffffff, #CCF0CF);
+  background-image: -moz-linear-gradient(top, #ffffff, #CCF0CF);
+  background-image: -ms-linear-gradient(top, #ffffff, #CCF0CF);
+  background-image: -o-linear-gradient(top, #ffffff, #CCF0CF);
+  background-image: linear-gradient(to bottom, #ffffff, #CCF0CF);
+  -webkit-border-radius: 60;
+  -moz-border-radius: 60;
+  border-radius: 60px;
+  text-shadow: 2px 2px 4px #41422a;
+  -webkit-box-shadow: 0px 0px 30px #ffffff;
+  -moz-box-shadow: 0px 0px 30px #ffffff;
+  box-shadow: 0px 0px 30px #ffffff;
+  font-family: Arial;
+  color: #ffffdb;
+  font-size: 20px;
+  padding: 5%;
+  text-decoration: none;
+  margin-top: 10%;
+  margin-left: 20%;
+  margin-right: 20%;
+  border: 0px;
+}
+
+.btn-createLight3 {
+  background: #EBD798;
+  background-image: -webkit-linear-gradient(top, #ffffff, #EBD798);
+  background-image: -moz-linear-gradient(top, #ffffff, #EBD798);
+  background-image: -ms-linear-gradient(top, #ffffff, #EBD798);
+  background-image: -o-linear-gradient(top, #ffffff, #EBD798);
+  background-image: linear-gradient(to bottom, #ffffff, #EBD798);
+  -webkit-border-radius: 60;
+  -moz-border-radius: 60;
+  border-radius: 60px;
+  text-shadow: 2px 2px 4px #41422a;
+  -webkit-box-shadow: 0px 0px 30px #ffffff;
+  -moz-box-shadow: 0px 0px 30px #ffffff;
+  box-shadow: 0px 0px 30px #ffffff;
+  font-family: Arial;
+  color: #ffffdb;
+  font-size: 20px;
+  padding: 5%;
+  text-decoration: none;
+  margin-top: 10%;
+  margin-left: 20%;
+  margin-right: 20%;
+  border: 0px;
+}
+
+.btn-createLight4 {
+  background: #F2A2FC;
+  background-image: -webkit-linear-gradient(top, #ffffff, #F2A2FC);
+  background-image: -moz-linear-gradient(top, #ffffff, #F2A2FC);
+  background-image: -ms-linear-gradient(top, #ffffff, #F2A2FC);
+  background-image: -o-linear-gradient(top, #ffffff, #F2A2FC);
+  background-image: linear-gradient(to bottom, #ffffff, #F2A2FC);
+  -webkit-border-radius: 60;
+  -moz-border-radius: 60;
+  border-radius: 60px;
+  text-shadow: 2px 2px 4px #41422a;
+  -webkit-box-shadow: 0px 0px 30px #ffffff;
+  -moz-box-shadow: 0px 0px 30px #ffffff;
+  box-shadow: 0px 0px 30px #ffffff;
+  font-family: Arial;
+  color: #ffffdb;
+  font-size: 20px;
+  padding: 5%;
+  text-decoration: none;
+  margin-top: 10%;
+  margin-left: 20%;
+  margin-right: 20%;
+  border: 0px;
+}
+
+.btn-createLight1:hover {
+  text-decoration: none;
+  -webkit-box-shadow: 0px 0px 30px #000000;
+  -moz-box-shadow: 0px 0px 30px #000000;
+  box-shadow: 0px 0px 30px #000000;
+}
+
+.btn-createLight2:hover {
+  text-decoration: none;
+  -webkit-box-shadow: 0px 0px 30px #000000;
+  -moz-box-shadow: 0px 0px 30px #000000;
+  box-shadow: 0px 0px 30px #000000;
+}
+
+.btn-createLight3:hover {
+  text-decoration: none;
+  -webkit-box-shadow: 0px 0px 30px #000000;
+  -moz-box-shadow: 0px 0px 30px #000000;
+  box-shadow: 0px 0px 30px #000000;
+}
+
+.btn-createLight4:hover {
   text-decoration: none;
   -webkit-box-shadow: 0px 0px 30px #000000;
   -moz-box-shadow: 0px 0px 30px #000000;

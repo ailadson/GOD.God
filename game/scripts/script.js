@@ -1,4 +1,4 @@
-/*! GOD.God - v0.0.1 - 2014-11-09 */GOD = {};
+/*! GOD.God - v0.0.1 - 2014-11-11 */GOD = {};
 
 GOD.Engine = function () {
 	var self = this;
@@ -13,6 +13,8 @@ GOD.Engine = function () {
 	this.stateManager = new GOD.StateManager(this);
 	this.gameElements = new GOD.GameElementManager(this);
 	this.hub = new GOD.Hub(this);
+
+	this.devMode = true;
 
 	this.init();
 }
@@ -98,7 +100,7 @@ GOD.StateConfiguration.prototype.Creation = function(){
 
 		create : function(){
 			//hub
-			hub.init("creationLight");
+			hub.init("creation");
 
 			//objs
 			var text = state.createText();
@@ -212,7 +214,9 @@ GOD.States.Naming = function(config){
 	this.textIndex = 0;
 	this.texts = ["NOW YOU ARE HERE","TELL ME"];
 	this.currentText = this.texts[this.textIndex];
-	this.introFadeOutTime = 3000;
+	this.introFadeOutTime = this.engine.devMode ?  100 : 3000;
+	this.endTweenUpTime = this.engine.devMode ? 100 : 500;
+	this.endTweenFadeTime = this.engine.devMode ? 100 : 1000;
 	this.clicked = false;
 	this.nextStateIncrement = 0;
 };
@@ -285,7 +289,7 @@ GOD.States.Naming.prototype.createEndTween = function(text){
 	var textTween = this.game.add.tween(text);
 	var self = this;
 
-	textTween.to({y: 25},500).to({ alpha : 0},1000,Phaser.Easing.Linear.None,false,300);
+	textTween.to({y: 25},this.endTweenUpTime).to({ alpha : 0},this.endTweenFadeTime,Phaser.Easing.Linear.None,false,300);
 
 	textTween.onComplete.add(function(){ 
 		self.nextState(self,text)
@@ -304,7 +308,7 @@ GOD.States.Naming.prototype.startEndAnim = function(field,endTwn){
 
 	this.engine.player.setName(field.value);
 	endTwn.start();
-	$(".naming").fadeOut(1500, function(){
+	$(".naming").fadeOut(this.endTweenUpTime + this.endTweenFadeTime, function(){
 		self.nextState(self);
 	});
 
@@ -369,54 +373,149 @@ GOD.GameElementManager.prototype.get = function(name){
 GOD.Hub = function(engine){
 	this.engine = engine;
 	this.container = document.getElementById('hub');
-	this.controllers = new GOD.ControllerManager(this);
+	this.controller = new GOD.ControllerManager(this);
+	this.currentController;
 }
 
 GOD.Hub.prototype.init = function(name){
 	//this.clearDom();
-	this.controllers[name].setDom(this.container,this);
+	this.controller[name].setDom(this.container,this);
+	this.currentController = name;
 }
 
 GOD.Hub.prototype.clearDom = function(){
+	while(this.container.firstChild){
+		this.container.removeChild(this.container.firstChild);
+	}
+}
+
+GOD.Hub.prototype.call = function(name){
+	if(this.controller[name]){
+		if(typeof this.controller[name] == "function"){
+			return this.controller[this.currentController][name]();
+		} else {
+			console.log("HUB.js || Returning value, not a function from .call(funcString) method: " + funcString);
+			return this.controller[this.currentController][name];
+		}
+	}
+	console.log("HUB.call() || Nothing called "+name+" in "+this.currentController);
+}
+
+GOD.Hub.prototype.get = function(name){
+	if(this.controller[name]){
+		return this.controller[name];
+	}
+	console.log("HUB.get() || Nothing called "+name+" in "+this.currentController);
 
 }
+
+GOD.Hub.prototype.set = function(name,value){
+	if(this.controller[name]){
+		this.controller[name] = value;
+		return
+	}
+	console.log("HUB.set() || Nothing called "+name+" in "+this.currentController);
+
+}
+
+
+
 GOD.ControllerManager = function(hub){
 	this.hub = hub;
 }
 
 GOD.Controllers = {};
-GOD.ControllerManager.prototype.creationLight = {
-	setDom : function (div) {
-		var b = document.createElement('button');
-		b.classList.add("btn-light");
-		div.appendChild(b);
-	},
-}
-
-GOD.Controllers.creationLightController = function($scope){
-
-}
-GOD.ControllerManager.prototype.creationLight = {
+GOD.ControllerManager.prototype.creation = {
 
 	setDom : function (div,hub) {
 		this.engine = hub.engine;
-		this.createButton(div);
+		this.hub = hub;
+		//this.animationState = 0;
+		this.createButtons(div);
 	},
 
-	createButton : function(div){
+	//***Create Light**//
+	/////////////////////
+	createButtons : function(div){
+		var colors = ['#96fcff','#CCF0CF','#EBD798','#F2A2FC'];
+
+		for (var i = 0; i < colors.length; i++) {
+			var color = colors[i];
+
+			this.createButton(div,color,i);
+		};
+	},
+
+	createButton : function(div,color,i) {
 		var self = this;
 		var b = document.createElement('button');
-		b.classList.add("btn-light");
-		b.innerHTML = "LIGHT";
+		b.classList.add("btn-createLight"+(i+1));
+		
 		b.addEventListener("click",function(){
-			self.onBtnClick();
+			self.onLightBtnClick(color,div);
 		});
 
 		div.appendChild(b);
 		return b;
 	},
 
-	onBtnClick : function(){
-		this.engine.game.stage.backgroundColor = "#96fcff";
-	}
+	onLightBtnClick : function(color,div){
+		this.engine.game.stage.backgroundColor = color;
+		this.hub.clearDom();
+		this.setDomForm(div);
+	},
+
+	//**Create Form**//
+	///////////////////
+	setDomForm : function(div){
+		//this.createRadios(div);
+		this.createColorPicker(div);
+	},
+
+	createColorPicker : function(div){
+		var ip = document.createElement('input');
+		ip.type = 'color'
+		ip.value = '#888888';
+		ip.addEventListener('input',function(){
+			console.log(ip.value);
+		});
+		div.appendChild(ip);
+
+	},
+
+	createRadios : function(div){
+		var shapes = ['circle','square','triangle'];
+		var container = document.createElement('div');
+		container.classList.add('radioInpt-createForm-container');
+
+		for (var i = 0; i < 3; i++) {
+			this.createRadio(container,div,shapes[i]);
+		};
+
+		div.appendChild(container);
+
+
+	},
+
+	createRadio : function(container,div,shape){
+		var ip = document.createElement('input');
+		ip.type = 'radio'
+		ip.value = shape;
+		ip.name="shape";
+		ip.classList.add('radioInpt-createForm');
+		ip.addEventListener("click",function(){
+			console.log(ip.value);
+		})
+		container.appendChild(ip);
+
+		var text = document.createElement('span');
+		text.innerHTML = shape;
+		container.appendChild(text);
+
+		container.appendChild(document.createElement('br'));
+	},
+
+
+
+	
 }
