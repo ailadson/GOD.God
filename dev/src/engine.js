@@ -22,3 +22,10 @@ GOD.Engine = function () {
 GOD.Engine.prototype.init = function(){
 	this.stateManager.init();
 }
+
+GOD.Engine.prototype.getCurrentState = function(){
+	if(!this.currentState){
+		console.log("Engine.getCurrentState() || no currentState")
+	}
+	return this.currentState;
+}

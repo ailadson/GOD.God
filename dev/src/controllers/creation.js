@@ -41,19 +41,51 @@ GOD.ControllerManager.prototype.creation = {
 	//**Create Form**//
 	///////////////////
 	setDomForm : function(div){
-		//this.createRadios(div);
+		this.createRadios(div);
 		this.createColorPicker(div);
+		this.createFormButton(div);
+		this.engine.getCurrentState().changeText();
+	},
+
+	createFormButton : function(div){
+		var container = document.createElement('div');
+		var btn = document.createElement('button');
+
+		var self = this;
+		container.classList.add("btn-createForm-container");
+		btn.classList.add('btn-createForm');
+		btn.innerHTML = "CREATE";
+		btn.addEventListener('click',function(){
+			self.onFormBtnClick();
+		});
+
+		container.appendChild(btn);
+		div.appendChild(container);
+
+	},
+
+	onFormBtnClick : function(){
+		console.log('awesome');
 	},
 
 	createColorPicker : function(div){
 		var ip = document.createElement('input');
+		var self = this;
+
 		ip.type = 'color'
 		ip.value = '#888888';
+		ip.classList.add("colorInpt-createForm");
 		ip.addEventListener('input',function(){
-			console.log(ip.value);
+			self.engine.getCurrentState().godColor = self.convertColorTo0x(ip.value);
 		});
+
+		this.engine.getCurrentState().godColor = this.convertColorTo0x(ip.value);
 		div.appendChild(ip);
 
+	},
+
+	convertColorTo0x : function(val){
+		return val.replace("#","0x");
 	},
 
 	createRadios : function(div){
@@ -72,12 +104,14 @@ GOD.ControllerManager.prototype.creation = {
 
 	createRadio : function(container,div,shape){
 		var ip = document.createElement('input');
+		var self = this;
+
 		ip.type = 'radio'
 		ip.value = shape;
 		ip.name="shape";
 		ip.classList.add('radioInpt-createForm');
 		ip.addEventListener("click",function(){
-			console.log(ip.value);
+			self.engine.getCurrentState().godForm = ip.value;
 		})
 		container.appendChild(ip);
 
