@@ -72,10 +72,8 @@ GOD.States.Naming.prototype.createButton = function(field,endTwn){
 	var b = document.createElement('button');
 	b.classList.add("naming")
 	b.addEventListener("click",function(){self.startEndAnim(field,endTwn)});
-	b.style.cssText = "position:absolute;"+"width:1em;"+"height:1em;"+
-						"top:60%;"+"bottom:0;"+"left:50%;"+"right:0;";+
-						"margin:auto;";
-	document.body.appendChild(b);
+	b.classList.add('btn-createSubmit')
+	document.getElementById('hub').appendChild(b);
 }
 
 GOD.States.Naming.prototype.createIntroText = function(){

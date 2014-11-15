@@ -4,22 +4,32 @@ GOD.ControllerManager.prototype.creation = {
 		this.engine = hub.engine;
 		this.hub = hub;
 		//this.animationState = 0;
-		this.createButtons(div);
+		this.createLightButtons(div);
+	},
+
+	createSubmitButton : function(div){
+		var btn = document.createElement('button');
+
+		btn.classList.add('btn-createSubmit');
+
+		div.appendChild(btn);
+
+		return btn
 	},
 
 	//***Create Light**//
 	/////////////////////
-	createButtons : function(div){
+	createLightButtons : function(div){
 		var colors = ['#96fcff','#CCF0CF','#EBD798','#F2A2FC'];
 
 		for (var i = 0; i < colors.length; i++) {
 			var color = colors[i];
 
-			this.createButton(div,color,i);
+			this.createLightButton(div,color,i);
 		};
 	},
 
-	createButton : function(div,color,i) {
+	createLightButton : function(div,color,i) {
 		var self = this;
 		var b = document.createElement('button');
 		b.classList.add("btn-createLight"+(i+1));
@@ -48,24 +58,28 @@ GOD.ControllerManager.prototype.creation = {
 	},
 
 	createFormButton : function(div){
-		var container = document.createElement('div');
-		var btn = document.createElement('button');
+		// var container = document.createElement('div');
+		// var btn = document.createElement('button');
 
 		var self = this;
-		container.classList.add("btn-createForm-container");
-		btn.classList.add('btn-createForm');
-		btn.innerHTML = "CREATE";
+		// container.classList.add("btn-createForm-container");
+		// btn.classList.add('btn-createForm');
+		// btn.innerHTML = "CREATE";
+		var btn = this.createSubmitButton(div);
+
 		btn.addEventListener('click',function(){
-			self.onFormBtnClick();
+			self.onFormBtnClick(div);
 		});
 
-		container.appendChild(btn);
-		div.appendChild(container);
+		//container.appendChild(btn);
+		//div.appendChild(container);
 
 	},
 
-	onFormBtnClick : function(){
-		console.log('awesome');
+	onFormBtnClick : function(div){
+		this.engine.getCurrentState().formFinalized = true;
+		this.hub.clearDom();
+		this.setDomBeings(div);
 	},
 
 	createColorPicker : function(div){
@@ -76,10 +90,10 @@ GOD.ControllerManager.prototype.creation = {
 		ip.value = '#888888';
 		ip.classList.add("colorInpt-createForm");
 		ip.addEventListener('input',function(){
-			self.engine.getCurrentState().godColor = self.convertColorTo0x(ip.value);
+			self.engine.god.color = self.convertColorTo0x(ip.value);
 		});
 
-		this.engine.getCurrentState().godColor = this.convertColorTo0x(ip.value);
+		this.engine.god.color = this.convertColorTo0x(ip.value);
 		div.appendChild(ip);
 
 	},
@@ -111,7 +125,7 @@ GOD.ControllerManager.prototype.creation = {
 		ip.name="shape";
 		ip.classList.add('radioInpt-createForm');
 		ip.addEventListener("click",function(){
-			self.engine.getCurrentState().godForm = ip.value;
+			self.engine.god.shape = ip.value;
 		})
 		container.appendChild(ip);
 
@@ -121,6 +135,60 @@ GOD.ControllerManager.prototype.creation = {
 
 		container.appendChild(document.createElement('br'));
 	},
+
+	//**Create Being**//
+	///////////////////
+	setDomBeings : function(div){
+		this.engine.getCurrentState().changeText();
+		this.engine.getCurrentState().setUpBeings();
+		this.createBeingsButtons(div);
+		this.createRestButton(div);
+	},
+
+	createBeingsButtons : function(div){
+		var buttons = ["leaf","cloud","sand","water"];
+		var container = document.createElement('div');
+		container.classList.add("btn-createBeings-container");
+
+		for (var i = 0; i < buttons.length; i++) {
+			this.createBeingsButton(container,buttons[i],i);
+		};
+
+		div.appendChild(container);
+	},
+
+	createBeingsButton : function(div,name,i){
+		var btn = document.createElement('button');
+		var d = document.createElement('div');
+		var self = this;
+
+		btn.classList.add('btn-createBeings');
+		btn.innerHTML = name;
+		div.appendChild(btn);
+		
+		btn.addEventListener('click',function(){
+			self.engine.getCurrentState().addElementToBeing(name);
+		})
+
+		
+	},
+
+	createRestButton : function(div){
+		// var btn = document.createElement('button');
+		var self = this;
+
+		// btn.classList.add('btn-createRest');
+		// btn.innerHTML = "REST";
+		// div.appendChild(btn);
+
+		var btn = this.createSubmitButton(div);
+
+		btn.addEventListener('click',function(){
+			self.hub.clearDom();
+			self.engine.getCurrentState().rest();
+		});
+	}
+
 
 
 

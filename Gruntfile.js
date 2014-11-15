@@ -4,7 +4,7 @@ module.exports = function(grunt) {
 	var sourceFiles = ['dev/src/engine.js','dev/src/world.js','dev/src/player.js','dev/src/stateManager.js',
 						'dev/src/stateConfiguration.js','dev/src/states/*','dev/src/behaviors.js',
 						'dev/src/gameElementManager.js','dev/src/hub.js','dev/src/controllerManager.js',
-						'dev/src/controllers/*'];
+						'dev/src/controllers/*','dev/src/god.js'];
 
 	//config
 	grunt.initConfig({

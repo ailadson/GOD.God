@@ -1,0 +1,132 @@
+{"frames": [
+
+{
+	"filename": "cloudWorship_1.png",
+	"frame": {"x":16,"y":58,"w":12,"h":16},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1,"y":1,"w":12,"h":16},
+	"sourceSize": {"w":32,"h":32}
+},
+{
+	"filename": "cloudWorship_2.png",
+	"frame": {"x":48,"y":64,"w":12,"h":16},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1,"y":0,"w":12,"h":16},
+	"sourceSize": {"w":32,"h":32}
+},
+{
+	"filename": "cloudWorship_3.png",
+	"frame": {"x":2,"y":70,"w":12,"h":14},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1,"y":1,"w":12,"h":14},
+	"sourceSize": {"w":32,"h":32}
+},
+{
+	"filename": "defaultWorship_1.png",
+	"frame": {"x":30,"y":66,"w":10,"h":16},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":2,"y":1,"w":10,"h":16},
+	"sourceSize": {"w":32,"h":32}
+},
+{
+	"filename": "defaultWorship_2.png",
+	"frame": {"x":34,"y":46,"w":12,"h":18},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1,"y":0,"w":12,"h":18},
+	"sourceSize": {"w":32,"h":32}
+},
+{
+	"filename": "defaultWorship_3.png",
+	"frame": {"x":18,"y":38,"w":14,"h":18},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":0,"w":14,"h":18},
+	"sourceSize": {"w":32,"h":32}
+},
+{
+	"filename": "dirtWorship_1.png",
+	"frame": {"x":48,"y":46,"w":12,"h":16},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":5,"y":1,"w":12,"h":16},
+	"sourceSize": {"w":32,"h":32}
+},
+{
+	"filename": "dirtWorship_2.png",
+	"frame": {"x":22,"y":20,"w":16,"h":16},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":3,"y":1,"w":16,"h":16},
+	"sourceSize": {"w":32,"h":32}
+},
+{
+	"filename": "dirtWorship_3.png",
+	"frame": {"x":22,"y":2,"w":18,"h":16},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":2,"y":1,"w":18,"h":16},
+	"sourceSize": {"w":32,"h":32}
+},
+{
+	"filename": "leafWorship_1.png",
+	"frame": {"x":16,"y":76,"w":8,"h":16},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":2,"y":1,"w":8,"h":16},
+	"sourceSize": {"w":32,"h":32}
+},
+{
+	"filename": "leafWorship_2.png",
+	"frame": {"x":2,"y":50,"w":12,"h":18},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":0,"w":12,"h":18},
+	"sourceSize": {"w":32,"h":32}
+},
+{
+	"filename": "leafWorship_3.png",
+	"frame": {"x":40,"y":26,"w":14,"h":18},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":0,"w":14,"h":18},
+	"sourceSize": {"w":32,"h":32}
+},
+{
+	"filename": "waterWorship_1.png",
+	"frame": {"x":2,"y":26,"w":14,"h":22},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1,"y":0,"w":14,"h":22},
+	"sourceSize": {"w":32,"h":32}
+},
+{
+	"filename": "waterWorship_2.png",
+	"frame": {"x":42,"y":2,"w":16,"h":22},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":22},
+	"sourceSize": {"w":32,"h":32}
+},
+{
+	"filename": "waterWorship_3.png",
+	"frame": {"x":2,"y":2,"w":18,"h":22},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":0,"w":18,"h":22},
+	"sourceSize": {"w":32,"h":32}
+}],
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker ",
+	"version": "1.0",
+	"image": "beings.png",
+	"format": "RGBA8888",
+	"size": {"w":64,"h":128},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:daf3b5c8cb9704b77d2e67cae306f4e9:04ce632cb25a6c7855897a5d475e59fc:73a7dfd7b6fbf0e52653537e2019968d$"
+}
+}

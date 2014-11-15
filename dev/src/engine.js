@@ -13,14 +13,16 @@ GOD.Engine = function () {
 	this.stateManager = new GOD.StateManager(this);
 	this.gameElements = new GOD.GameElementManager(this);
 	this.hub = new GOD.Hub(this);
+	this.god = new GOD.God(this);
 
-	this.devMode = true;
+	this.devMode = false;
 
 	this.init();
 }
 
 GOD.Engine.prototype.init = function(){
 	this.stateManager.init();
+	this.god.init();
 }
 
 GOD.Engine.prototype.getCurrentState = function(){

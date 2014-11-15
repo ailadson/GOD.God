@@ -128,16 +128,44 @@ input[type=text]{
   height : 15%;
 }
 
-.btn-createForm-container {
+btn-createForm-container {
   text-align: center;
   width: 33%;
   height: 100%;
   margin-left: 33%
 }
 
-.btn-createForm {
+btn-createForm {
   @include center-block;
   margin-top : 100%;
   width: 30%;
   margin-left: 36%;
+  font-size: .75em;
 }
+
+.btn-createBeings-container {
+  margin-top: 35%;
+  margin-left: 15%;
+  width: 70%;
+}
+
+.btn-createBeings {
+  margin-left: 16%;
+  width : 5%;
+  font-size: .5em;
+  text-align: center;
+}
+
+btn-createRest {
+   @include center-block;
+   margin-top: 40%;
+}
+
+.btn-createSubmit {
+  @include center-block;
+  height : 3%;
+  width : 15%;
+  margin-top: 50%;
+}
+
+

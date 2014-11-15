@@ -3,7 +3,9 @@ GOD.StateConfiguration.prototype['Preloader'] = function(){
 	var game = self.game;
 
 	return {
-		preload : function () {},
+		preload : function () {
+			game.load.atlasJSONArray("beings","assets/beings.png","assets/beings.json");
+		},
 
 		create : function(){
 			game.state.start('Naming');
