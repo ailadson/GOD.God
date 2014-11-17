@@ -5,6 +5,8 @@ GOD.God = function(engine){
 	this.color;
 	this.shape = 'circle';
 	this.radius = 100;
+	this.faith = 0;
+	this.faithCheck = 0;
 	this.x;
 	this.y;
 }

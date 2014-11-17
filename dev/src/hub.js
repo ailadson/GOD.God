@@ -2,6 +2,8 @@ GOD.Hub = function(engine){
 	this.engine = engine;
 	this.container = document.getElementById('hub');
 	this.controller = new GOD.ControllerManager(this);
+	this.word = new GOD.WordManager(this);
+	this.power = new GOD.PowerManager(this);
 	this.currentController;
 }
 

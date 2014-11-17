@@ -1,0 +1,3 @@
+GOD.PowerManager = function(hub){
+
+}
