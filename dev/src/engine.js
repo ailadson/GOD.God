@@ -7,7 +7,7 @@ GOD.Engine = function () {
 	this.width = window.innerWidth;
 	this.height = window.innerHeight;
 
-	this.game = new Phaser.Game(this.width,this.height,Phaser.AUTO,'game');
+	this.game = new Phaser.Game(960,640,Phaser.AUTO,'game');
 	this.player = new GOD.Player(this);
 	this.behaviors = new GOD.Behaviors(this);
 	this.stateManager = new GOD.StateManager(this);

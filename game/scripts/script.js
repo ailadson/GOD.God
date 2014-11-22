@@ -1,4 +1,4 @@
-/*! GOD.God - v0.0.1 - 2014-11-15 */GOD = {};
+/*! GOD.God - v0.0.1 - 2014-11-20 */GOD = {};
 
 GOD.Engine = function () {
 	var self = this;
@@ -7,7 +7,7 @@ GOD.Engine = function () {
 	this.width = window.innerWidth;
 	this.height = window.innerHeight;
 
-	this.game = new Phaser.Game(this.width,this.height,Phaser.AUTO,'game');
+	this.game = new Phaser.Game(960,640,Phaser.AUTO,'game');
 	this.player = new GOD.Player(this);
 	this.behaviors = new GOD.Behaviors(this);
 	this.stateManager = new GOD.StateManager(this);
@@ -30,6 +30,9 @@ GOD.Engine.prototype.getCurrentState = function(){
 		console.log("Engine.getCurrentState() || no currentState")
 	}
 	return this.currentState;
+}
+GOD.World = function (engine) {
+	this.territories = {};
 }
 GOD.Player = function (engine) {
 	this.name = null;
@@ -65,33 +68,6 @@ GOD.StateConfiguration = function(engine){
 }
 
 GOD.States = {};
-GOD.StateConfiguration.prototype.Boot = function(){
-	var self = this;
-	var game = self.game;
-
-	return {
-		preload : function () {},
-
-		create : function(){
-			game.input.maxPointers = 1;
-			game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
-			// game.scale.minWidth;
-			// game.scale.minHeight;
-			game.scale.pageAlignHorizontally = true;
-			game.scale.pageAlignVertically = true;
-			game.scale.forceLandscape = true;
-			game.scale.setScreenSize(true);
-
-			game.input.addPointer();
-			game.stage.backgroundColor = "#000000"
-
-			game.state.start('Preloader');
-
-		},
-
-		update : function(){}
-	}
-}
 GOD.StateConfiguration.prototype.Creation = function(){
 	var self = this;
 	var engine = self.engine;
@@ -482,6 +458,33 @@ GOD.StateConfiguration.prototype['Preloader'] = function(){
 		update : function(){}
 	}
 }
+GOD.StateConfiguration.prototype.Boot = function(){
+	var self = this;
+	var game = self.game;
+
+	return {
+		preload : function () {},
+
+		create : function(){
+			game.input.maxPointers = 1;
+			game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+			// game.scale.minWidth;
+			// game.scale.minHeight;
+			game.scale.pageAlignHorizontally = true;
+			game.scale.pageAlignVertically = true;
+			game.scale.forceLandscape = true;
+			game.scale.setScreenSize(true);
+
+			game.input.addPointer();
+			game.stage.backgroundColor = "#000000"
+
+			game.state.start('Preloader');
+
+		},
+
+		update : function(){}
+	}
+}
 GOD.Behaviors = function (engine) {
 	this.engine = engine;
 	this.game = engine.game;
@@ -517,6 +520,8 @@ GOD.Hub = function(engine){
 	this.engine = engine;
 	this.container = document.getElementById('hub');
 	this.controller = new GOD.ControllerManager(this);
+	this.word = new GOD.WordManager(this);
+	this.power = new GOD.PowerManager(this);
 	this.currentController;
 }
 
@@ -771,6 +776,8 @@ GOD.God = function(engine){
 	this.color;
 	this.shape = 'circle';
 	this.radius = 100;
+	this.faith = 0;
+	this.faithCheck = 0;
 	this.x;
 	this.y;
 }
