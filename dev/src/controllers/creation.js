@@ -146,7 +146,7 @@ GOD.ControllerManager.prototype.creation = {
 	},
 
 	createBeingsButtons : function(div){
-		var buttons = ["leaf","cloud","sand","water"];
+		var buttons = this.engine.types;
 		var container = document.createElement('div');
 		container.classList.add("btn-createBeings-container");
 

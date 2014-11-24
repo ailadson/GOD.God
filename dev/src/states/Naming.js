@@ -14,10 +14,12 @@ GOD.StateConfiguration.prototype.Naming = function(){
 		create : function(){
 			//objs
 			var text = state.createIntroText();
+			
 			engine.gameElements.set({
 				x: text.position.x,
 				y: 25
-			},"introText")
+			},"mainText")
+
 			//tweens
 			var endTween = state.createEndTween(text);
 			var tween = state.createIntroTween(text,endTween);
@@ -143,7 +145,7 @@ GOD.States.Naming.prototype.nextState = function(_self,text){
 	var self = _self || this;
 
 	self.nextStateIncrement += 1;
-	console.log(self.nextStateIncrement)
+
 	if(self.nextStateIncrement == 3){
 		this.game.state.start('Creation');
 	}

@@ -3,7 +3,9 @@ GOD.StateConfiguration.prototype.Boot = function(){
 	var game = self.game;
 
 	return {
-		preload : function () {},
+		preload : function () {
+
+		},
 
 		create : function(){
 			game.input.maxPointers = 1;
@@ -18,6 +20,7 @@ GOD.StateConfiguration.prototype.Boot = function(){
 			game.input.addPointer();
 			game.stage.backgroundColor = "#000000"
 
+			self.engine.hub.init();
 			game.state.start('Preloader');
 
 		},

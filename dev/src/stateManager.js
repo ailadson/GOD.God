@@ -11,7 +11,8 @@ GOD.StateManager.prototype.init = function(){
 	this.game.state.add('Preloader',this.get('Preloader'));
 	this.game.state.add('Naming',this.get('Naming'));
 	this.game.state.add('Creation',this.get('Creation'));
-	// this.game.state.add('firstWord',this.get('firstWord'));
+	this.game.state.add('WorldCine',this.get('WorldCine'));
+	//this.game.state.add('FirstWord',this.get('FirstWord'));
 	// this.game.state.add('expansion',this.stateManager.get('expansion'));
 	this.game.state.start('Boot');
 }

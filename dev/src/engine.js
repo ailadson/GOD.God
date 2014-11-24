@@ -6,6 +6,7 @@ GOD.Engine = function () {
 	this.counter = 0;
 	this.width = window.innerWidth;
 	this.height = window.innerHeight;
+	this.types = ['cloud','sand','shroom','leaf']
 
 	this.game = new Phaser.Game(960,640,Phaser.AUTO,'game');
 	this.player = new GOD.Player(this);
@@ -14,6 +15,7 @@ GOD.Engine = function () {
 	this.gameElements = new GOD.GameElementManager(this);
 	this.hub = new GOD.Hub(this);
 	this.god = new GOD.God(this);
+	this.world = new GOD.World(this);
 
 	this.devMode = false;
 
@@ -23,6 +25,7 @@ GOD.Engine = function () {
 GOD.Engine.prototype.init = function(){
 	this.stateManager.init();
 	this.god.init();
+	this.world.init();
 }
 
 GOD.Engine.prototype.getCurrentState = function(){

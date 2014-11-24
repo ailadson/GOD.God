@@ -1,4 +1,4 @@
-/*! GOD.God - v0.0.1 - 2014-11-20 */GOD = {};
+/*! GOD.God - v0.0.1 - 2014-11-23 */GOD = {};
 
 GOD.Engine = function () {
 	var self = this;
@@ -6,6 +6,7 @@ GOD.Engine = function () {
 	this.counter = 0;
 	this.width = window.innerWidth;
 	this.height = window.innerHeight;
+	this.types = ['cloud','sand','shroom','leaf']
 
 	this.game = new Phaser.Game(960,640,Phaser.AUTO,'game');
 	this.player = new GOD.Player(this);
@@ -14,6 +15,7 @@ GOD.Engine = function () {
 	this.gameElements = new GOD.GameElementManager(this);
 	this.hub = new GOD.Hub(this);
 	this.god = new GOD.God(this);
+	this.world = new GOD.World(this);
 
 	this.devMode = false;
 
@@ -23,6 +25,7 @@ GOD.Engine = function () {
 GOD.Engine.prototype.init = function(){
 	this.stateManager.init();
 	this.god.init();
+	this.world.init();
 }
 
 GOD.Engine.prototype.getCurrentState = function(){
@@ -32,7 +35,90 @@ GOD.Engine.prototype.getCurrentState = function(){
 	return this.currentState;
 }
 GOD.World = function (engine) {
+	this.engine = engine;
+	this.game = engine.game;
 	this.territories = {};
+	//this.currentBeings = this.game.add.group();
+	
+	this.currentTerritory;
+	this.map;
+	this.layers;
+	this.tweens = {
+		base : {},
+		water : {},
+		collisions : {}
+	};
+}
+
+GOD.World.prototype.init = function(firstType){
+	var t = this.engine.types;
+
+	for (var i = 0; i < t.length; i++) {
+		var type = t[i];
+		var first = (type == firstType);
+		this.territories[type] = new GOD.Territory(this,type,first);
+	};
+}
+
+GOD.World.prototype.createTerritory = function(type){
+	if(this.currentTerritory){
+		this.clearTerritory();
+	}
+
+	this.currentTerritory = this.territories[type];
+	this.createMap();
+	this.createTweens();
+	//this.createBeings();
+}
+
+GOD.World.prototype.createMap = function(){
+	this.map = this.currentTerritory.createMap();
+
+	this.layers = this.currentTerritory.createLayers(this.map);
+
+	this.map.setCollisionBetween(1,100,true,this.layers.water);
+	this.map.setCollisionBetween(1,100,true,this.layers.collisions);
+
+	this.layers.base.resizeWorld();
+
+	//set inital position
+	for(sheet in this.layers){
+		this.layers[sheet].fixedToCamera = false;
+		this.layers[sheet].position.y = this.game.height;
+	}
+}
+
+GOD.World.prototype.tweenStart = function(name){
+	for(layer in this.tweens){
+		this.tweens[layer][name].start();
+	}
+}
+
+GOD.World.prototype.createTweens = function(){
+	for(i in this.layers){
+		var layer = this.layers[i];
+		this.tweens[i].up = this.game.add.tween(layer.position);
+		this.tweens[i].down = this.game.add.tween(layer.position);
+		this.tweens[i].out = this.game.add.tween(layer.position);
+
+		this.tweens[i].up.to({ y : 0},5000);
+		this.tweens[i].down.to({ y : (this.game.height - (this.game.height/10))},5000);
+		this.tweens[i].out.to({ y : this.game.height},5000);
+	}
+}
+
+GOD.World.prototype.createBeings = function(){
+	// var population = this.currentTerritory.population;
+	// var scale = this.currentTerritory.scale;
+	// var type = this.currentTerritory.type;
+
+	// for (var i = 0; i < population; i++) {
+	// 	this.currentBeings.create(/**TO DO. x n y positions**/,"beings",type+"Worship_1.png");
+	// };
+}
+
+GOD.World.prototype.clearTerritory = function(){
+	this.currentBeings.removeAll(true);
 }
 GOD.Player = function (engine) {
 	this.name = null;
@@ -54,7 +140,8 @@ GOD.StateManager.prototype.init = function(){
 	this.game.state.add('Preloader',this.get('Preloader'));
 	this.game.state.add('Naming',this.get('Naming'));
 	this.game.state.add('Creation',this.get('Creation'));
-	// this.game.state.add('firstWord',this.get('firstWord'));
+	this.game.state.add('WorldCine',this.get('WorldCine'));
+	//this.game.state.add('FirstWord',this.get('FirstWord'));
 	// this.game.state.add('expansion',this.stateManager.get('expansion'));
 	this.game.state.start('Boot');
 }
@@ -65,17 +152,46 @@ GOD.StateManager.prototype.get = function(name){
 GOD.StateConfiguration = function(engine){
 	this.engine = engine;
 	this.game = engine.game;
+	this.hub = engine.hub;
 }
 
 GOD.States = {};
+GOD.StateConfiguration.prototype.Boot = function(){
+	var self = this;
+	var game = self.game;
+
+	return {
+		preload : function () {
+
+		},
+
+		create : function(){
+			game.input.maxPointers = 1;
+			game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+			// game.scale.minWidth;
+			// game.scale.minHeight;
+			game.scale.pageAlignHorizontally = true;
+			game.scale.pageAlignVertically = true;
+			game.scale.forceLandscape = true;
+			game.scale.setScreenSize(true);
+
+			game.input.addPointer();
+			game.stage.backgroundColor = "#000000"
+
+			self.engine.hub.init();
+			game.state.start('Preloader');
+
+		},
+
+		update : function(){}
+	}
+}
 GOD.StateConfiguration.prototype.Creation = function(){
 	var self = this;
 	var engine = self.engine;
 	var hub = engine.hub;
 	var game = self.game;
 	var state = new GOD.States.Creation(this);
-
-	engine.currentState = state;
 
 	//create()
 	
@@ -85,14 +201,16 @@ GOD.StateConfiguration.prototype.Creation = function(){
 		preload : function () {},
 
 		create : function(){
-			//hub
-			hub.init("creation");
+			
 
 			//objs
 			var text = state.createText();
-			var tween = state.createTween(text);
+			//var tween = state.createTween(text);
 
-			state.createGod();
+			engine.god.create(true);
+
+			//hub
+			hub.start("creation",state);
 			
 		},
 
@@ -110,8 +228,8 @@ GOD.States.Creation = function(config){
 	this.game = config.game;
 	this.engine = config.engine;
 	this.hub = config.hub;
-	this.textIndex = -1;
-	this.texts = ["Let There Be","Embody","Create","Rest"];
+	this.textIndex = 0;
+	this.texts = ["Illuminate","Embody","Create","Rest"];
 	this.currentText = this.texts[this.textIndex];
 	this.currentTextElement;
 	this.setUpBeingTime = (this.engine.devMode) ? 50 : 500;
@@ -125,12 +243,13 @@ GOD.States.Creation = function(config){
 		leaf : 0,
 		cloud : 0,
 		sand : 0,
-		water : 0,
+		shroom : 0,
 	};
 
 	this.restFadeTime = this.engine.devMode ? 50 : 1500;
 	this.restMoveDownTime = this.engine.devMode ? 50 : 1000;
 	this.godFadeTime = this.engine.devMode ? 50 : 2000;
+	this.restTime = this.engine.devMode ? 5 : 3000;
 	this.beingFadeTime = this.engine.devMode ? 50 : (this.restMoveDownTime + this.godFadeTime);
 };
 
@@ -138,10 +257,13 @@ GOD.States.Creation.prototype.animate = function(){
 	if(this.engine.god.color){
 		this.animateGod();
 	}
+
 }
 
 GOD.States.Creation.prototype.nextState = function(){
-	console.log("hey");
+	//console.log(this.starterType);
+	this.engine.god.starterType = this.starterType;
+	this.game.state.start('WorldCine');
 }
 
 GOD.States.Creation.prototype.rest = function(){
@@ -155,22 +277,33 @@ GOD.States.Creation.prototype.rest = function(){
 	var godTween = this.game.add.tween(this.engine.god.image);
 	var beingTween = this.game.add.tween(this.being);
 
-	restTween.to({ y : this.game.world.centerY-50 },this.restMoveDownTime).to({alpha : 0},this.restFadeTime);
-	godTween.to({alpha : 0 }, this.godFadeTime);
-	beingTween.to({alpha : 0}, this.beingFadeTime);
+	restTween.to({ y : this.game.world.centerY },this.restTime);
+	godTween.to({alpha : 0.8 }, this.restTime);
+	beingTween.to({alpha : 0, y : this.game.height}, this.restTime);
 
 	//attach tween events
 	godTween.onComplete.add(function(){
-		restTween.start();
+		//restTween.start();
 	});
 
 	restTween.onComplete.add(function(){
-		self.nextState
+		
+	});
+
+	beingTween.onComplete.add(function(){
+		self.being.destroy();
+		self.engine.gameElements.set({
+				x: self.currentTextElement.position.x,
+				y: self.currentTextElement.position.y
+			},"mainText")
+
+		self.nextState();
 	});
 
 	//start
-	godTween.start();
+	//godTween.start();
 	beingTween.start();
+	//restTween.start();
 
 }
 
@@ -186,9 +319,9 @@ GOD.States.Creation.prototype.createBeing = function(){
 	being.animations.add("defaultWorship",["defaultWorship_1.png","defaultWorship_2.png","defaultWorship_3.png"],7,true);
 	being.animations.add("leafWorship",["leafWorship_1.png","leafWorship_2.png","leafWorship_3.png"],7,true);
 	being.animations.add("cloudWorship",["cloudWorship_1.png","cloudWorship_2.png","cloudWorship_3.png"],7,true);
-	being.animations.add("waterWorship",["waterWorship_1.png","waterWorship_2.png","waterWorship_3.png"],7,true);
+	being.animations.add("shroomWorship",["shroomWorship_1.png","shroomWorship_2.png","shroomWorship_3.png"],7,true);
 	being.animations.add("sandWorship",["dirtWorship_1.png","dirtWorship_2.png","dirtWorship_3.png"],7,true);
-	being.animations.play("defaultWorship");
+	being.animations.play("shroomWorship");
 	this.being = being;
 }
 
@@ -215,36 +348,33 @@ GOD.States.Creation.prototype.checkBeingType = function(){
 	for(tally in this.beingTally){
 		var amount = this.beingTally[tally];
 
-		if(amount == 0 ){ return }
-
 		total += amount;
 	}
 
 	var high = 0;
 	var val;
-	console.log(total);
 
 	for(tally in this.beingTally){
 		var amount = this.beingTally[tally];
 
-		if(amount/total > .3 && amount > high){
+		if(amount > high){ // && amount/total > .3 
 			high = amount;
-			val = tally;
+			this.starterType = tally;
 		}
 	}
 
-	if(val){
-		this.being.animations.play(val+"Worship");
+	if(this.starterType){
+		this.being.animations.play(this.starterType+"Worship");
 	} else {
 		this.being.animations.play("defaultWorship");
 	}
 }
 
-GOD.States.Creation.prototype.createGod = function(){
-	this.engine.god.image = this.game.add.graphics(this.game.world.centerX/2,this.game.world.centerY/2);
-	this.engine.god.x = this.game.world.centerX;
-	this.engine.god.y = this.game.world.centerY;
-}
+// GOD.States.Creation.prototype.createGod = function(god){
+// 	god.image = this.game.add.graphics(this.game.world.centerX/2,this.game.world.centerY/2);
+// 	god.x = this.game.world.centerX;
+// 	god.y = this.game.world.centerY;
+// }
 
 GOD.States.Creation.prototype.createText = function(){
 	var textStyle = {
@@ -253,37 +383,31 @@ GOD.States.Creation.prototype.createText = function(){
 		font: "40px Arial"
 	}
 
-	var tConf = this.engine.gameElements.get("introText");
+	var tConf = this.engine.gameElements.get("mainText");
 	var text = this.game.add.text(tConf.x,tConf.y,this.currentText,textStyle);
 
 	text.anchor.x = 0.5;
 	text.anchor.y = 0.5;
 
-	text.setShadow(2,2,"rgba(0,0,0,.7)",5);
+	text.setShadow(1,1,"rgba(0,0,0,.7)",3);
 	this.currentTextElement = text;
 	return text;
-	
-
 }
 
 GOD.States.Creation.prototype.createTween = function(text){
-	text.text = this.getNextText();
 	var tween = this.game.add.tween(text);
 }
 
 GOD.States.Creation.prototype.changeText = function(){
-	this.currentTextElement.text = this.getNextText();
+	if(this.currentTextElement){
+		this.currentTextElement.text = this.getNextText();
+	} 
 }
 
 GOD.States.Creation.prototype.getNextText = function(){
 	this.textIndex += 1;
-
 	if(this.textIndex < this.texts.length){
 		this.currentText = this.texts[this.textIndex];
-
-		if(typeof this.currentText == 'function'){
-			return this.currentText();
-		}
 
 		return this.currentText;
 	}
@@ -306,10 +430,12 @@ GOD.StateConfiguration.prototype.Naming = function(){
 		create : function(){
 			//objs
 			var text = state.createIntroText();
+			
 			engine.gameElements.set({
 				x: text.position.x,
 				y: 25
-			},"introText")
+			},"mainText")
+
 			//tweens
 			var endTween = state.createEndTween(text);
 			var tween = state.createIntroTween(text,endTween);
@@ -435,7 +561,7 @@ GOD.States.Naming.prototype.nextState = function(_self,text){
 	var self = _self || this;
 
 	self.nextStateIncrement += 1;
-	console.log(self.nextStateIncrement)
+
 	if(self.nextStateIncrement == 3){
 		this.game.state.start('Creation');
 	}
@@ -449,6 +575,10 @@ GOD.StateConfiguration.prototype['Preloader'] = function(){
 	return {
 		preload : function () {
 			game.load.atlasJSONArray("beings","assets/beings.png","assets/beings.json");
+			game.load.tilemap("tileMapx2","assets/tileMapx2.json",null,Phaser.Tilemap.TILED_JSON);
+			//game.load.tilemap("mapx1","assets/tiles_1x.png",null,Phaser.Tilemap.TILED_JSON);
+			//game.load.tilemap("mapx0.5","assets/tiles_0.5x.png",null,Phaser.Tilemap.TILED_JSON);
+			game.load.image("tileSetx2","assets/tiles_2x.png");
 		},
 
 		create : function(){
@@ -458,32 +588,47 @@ GOD.StateConfiguration.prototype['Preloader'] = function(){
 		update : function(){}
 	}
 }
-GOD.StateConfiguration.prototype.Boot = function(){
+GOD.StateConfiguration.prototype.WorldCine = function(){
 	var self = this;
+	var engine = self.engine;
+	var world = engine.world;
+	var god = engine.god;
+	var hub = engine.hub;
 	var game = self.game;
+	var state = new GOD.States.WorldCine(this);
 
 	return {
-		preload : function () {},
-
-		create : function(){
-			game.input.maxPointers = 1;
-			game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
-			// game.scale.minWidth;
-			// game.scale.minHeight;
-			game.scale.pageAlignHorizontally = true;
-			game.scale.pageAlignVertically = true;
-			game.scale.forceLandscape = true;
-			game.scale.setScreenSize(true);
-
-			game.input.addPointer();
-			game.stage.backgroundColor = "#000000"
-
-			game.state.start('Preloader');
+		preload : function(){
+			//engine.currentState = state;
 
 		},
 
-		update : function(){}
+		create : function(){
+			god.create(true);		
+			world.createTerritory(god.starterType);
+			world.tweenStart('up');
+			god.tween.up.start();
+			
+
+		},
+
+		update : function(){
+			state.animate();
+		}
 	}
+}
+
+/******************************************************************************************/
+
+
+GOD.States.WorldCine = function(config){
+	this.engine = config.engine;
+	this.game = config.game;
+	this.hub = config.hub;
+}
+
+GOD.States.WorldCine.prototype.animate = function(){
+	this.engine.god.draw();
 }
 GOD.Behaviors = function (engine) {
 	this.engine = engine;
@@ -518,6 +663,7 @@ GOD.GameElementManager.prototype.get = function(name){
 }
 GOD.Hub = function(engine){
 	this.engine = engine;
+	this.game = engine.game;
 	this.container = document.getElementById('hub');
 	this.controller = new GOD.ControllerManager(this);
 	this.word = new GOD.WordManager(this);
@@ -525,10 +671,22 @@ GOD.Hub = function(engine){
 	this.currentController;
 }
 
-GOD.Hub.prototype.init = function(name){
-	//this.clearDom();
+GOD.Hub.prototype.init = function(){
+	this.setUpStyle();
+}
+
+GOD.Hub.prototype.start = function(name,state){
+	this.engine.currentState = state;
+	this.clearDom();
+	
 	this.controller[name].setDom(this.container,this);
+
 	this.currentController = name;
+}
+
+GOD.Hub.prototype.setUpStyle = function(){
+	var nodes = document.getElementsByTagName("canvas");
+	this.container.style.cssText = nodes[0].style.cssText;
 }
 
 GOD.Hub.prototype.clearDom = function(){
@@ -721,7 +879,7 @@ GOD.ControllerManager.prototype.creation = {
 	},
 
 	createBeingsButtons : function(div){
-		var buttons = ["leaf","cloud","sand","water"];
+		var buttons = this.engine.types;
 		var container = document.createElement('div');
 		container.classList.add("btn-createBeings-container");
 
@@ -772,17 +930,44 @@ GOD.ControllerManager.prototype.creation = {
 GOD.God = function(engine){
 	this.engine = engine;
 	this.game = engine.game;
+
 	this.image;
 	this.color;
 	this.shape = 'circle';
-	this.radius = 100;
+	this.width = 100;
+	this.wTohRatio = 1;
+	this.getheight = function(){
+		return this.width * this.wTohRatio;
+	}
+
 	this.faith = 0;
 	this.faithCheck = 0;
 	this.x;
 	this.y;
+
+	this.starterType;
+
+	this.tween = {};
 }
 
 GOD.God.prototype.init = function(){
+}
+
+GOD.God.prototype.create = function(down){
+	this.image = this.game.add.graphics(this.game.world.centerX/2,this.game.world.centerY/2);
+	this.x = this.game.world.centerX;
+	this.y = down ? this.game.world.centerY : -this.game.world.centerY;
+	this.image.alpha = down ? 1 : 0.2;
+
+	this.createTweens();
+}
+
+GOD.God.prototype.createTweens = function(){
+	this.tween.up = this.game.add.tween(this);
+	this.tween.down = this.game.add.tween(this);
+
+	this.tween.up.to({y : -this.game.world.centerY, alpha : 0.2},5000);
+	this.tween.down.to({y : this.game.world.centerY, alpha : 1},5000);
 }
 
 GOD.God.prototype.draw = function(){
@@ -791,18 +976,60 @@ GOD.God.prototype.draw = function(){
 
 	var x = this.x;
 	var y = this.y;
+	var w = this.width;
+	var h = this.getheight();
 
 	switch(this.shape){
 		case 'circle':
-			this.image.drawCircle(x/2,y/2,100);
+			this.image.drawCircle(x/2,y/2,w);
 			break;
 		case 'triangle':
-			this.image.drawTriangle([new Phaser.Point((x/2)-100,(y/2)+100),new Phaser.Point((x/2),(y/2)-100),new Phaser.Point((x/2)+100,(y/2)+100)])
+			this.image.drawTriangle([new Phaser.Point((x/2)-w,(y/2)+h),new Phaser.Point((x/2),(y/2)-h),new Phaser.Point((x/2)+w,(y/2)+h)])
 			break;
 		case 'square' : 
-			this.image.drawRect((x/2)-100,(y/2)-100,200,200);
+			this.image.drawRect((x/2)-w,(y/2)-h,w*2,h*2);
 			break;
 	}
 
 	this.image.endFill();
+}
+GOD.PowerManager = function(hub){
+
+}
+GOD.Territory = function(world,type,home){
+	this.scale = 2;
+	this.engine = world.engine;
+	this.game = this.engine.game;
+	this.firstTerritory = home || false;
+	this.population = 3;
+	this.type = type;	
+	this.buildings = []; //array of sprite IDs
+	this.events = [];
+}
+
+GOD.Territory.prototype.createMap = function(){
+	console.log(this);
+	var map = this.game.add.tilemap('tileMapx' + this.scale);
+	map.addTilesetImage('tiles_'+this.scale+'x','tileSetx'+this.scale);
+	return map;
+}
+
+GOD.Territory.prototype.createLayers = function(map){
+	var obj = {};
+
+	obj.water = map.createLayer(this.type+'x'+this.scale+" water");
+	obj.base = map.createLayer(this.type+'x'+this.scale+" base");
+	obj.collisions = map.createLayer(this.type+'x'+this.scale+" collisions");
+
+	return obj;
+}
+
+/*
+**Events
+*/
+GOD.Territory.prototype.addEvent = function(evt){
+	this.events.push(evt);
+}
+GOD.WordManager = function(hub){
+	
 }

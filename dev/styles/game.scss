@@ -21,9 +21,9 @@ $creation-btn-margin : 100 - ($creation-btn-width * 2 * $creation-btn-amount);
   -moz-border-radius: 60;
   border-radius: 60px;
   text-shadow: 2px 2px 4px #41422a;
-  -webkit-box-shadow: 0px 0px 30px #ffffff;
-  -moz-box-shadow: 0px 0px 30px #ffffff;
-  box-shadow: 0px 0px 30px #ffffff;
+  -webkit-box-shadow: 0px 0px 30px $color;
+  -moz-box-shadow: 0px 0px 30px $color;
+  box-shadow: 0px 0px 30px $color;
   font-family: Arial;
   color: #ffffdb;
   font-size: 20px;
@@ -46,8 +46,8 @@ div{
 }
 
 #hub{
-  width : 100%;
-  height: 100%;
+  width : 960px;
+  height: 640px;
 }
 
 ::-webkit-input-placeholder {
@@ -88,30 +88,30 @@ input[type=text]{
 
 .btn-createLight1:hover {
   text-decoration: none;
-  -webkit-box-shadow: 0px 0px 30px #000000;
-  -moz-box-shadow: 0px 0px 30px #000000;
-  box-shadow: 0px 0px 30px #000000;
+  -webkit-box-shadow: 0px 0px 120px #96fcff;
+  -moz-box-shadow: 0px 0px 120px #96fcff;
+  box-shadow: 0px 0px 120px #96fcff;
 }
 
 .btn-createLight2:hover {
   text-decoration: none;
-  -webkit-box-shadow: 0px 0px 30px #000000;
-  -moz-box-shadow: 0px 0px 30px #000000;
-  box-shadow: 0px 0px 30px #000000;
+  -webkit-box-shadow: 0px 0px 120px #CCF0CF;
+  -moz-box-shadow: 0px 0px 120px #CCF0CF;
+  box-shadow: 0px 0px 120px #CCF0CF;
 }
 
 .btn-createLight3:hover {
   text-decoration: none;
-  -webkit-box-shadow: 0px 0px 30px #000000;
-  -moz-box-shadow: 0px 0px 30px #000000;
-  box-shadow: 0px 0px 30px #000000;
+  -webkit-box-shadow: 0px 0px 120px #EBD798;
+  -moz-box-shadow: 0px 0px 120px #EBD798;
+  box-shadow: 0px 0px 120px #EBD798;
 }
 
 .btn-createLight4:hover {
   text-decoration: none;
-  -webkit-box-shadow: 0px 0px 30px #000000;
-  -moz-box-shadow: 0px 0px 30px #000000;
-  box-shadow: 0px 0px 30px #000000;
+  -webkit-box-shadow: 0px 0px 120px #F2A2FC;
+  -moz-box-shadow: 0px 0px 120px #F2A2FC;
+  box-shadow: 0px 0px 120px #F2A2FC;
 }
 
 .radioInpt-createForm-container {

@@ -97,7 +97,7 @@
 	"sourceSize": {"w":32,"h":32}
 },
 {
-	"filename": "waterWorship_1.png",
+	"filename": "shroomWorship_1.png",
 	"frame": {"x":2,"y":26,"w":14,"h":22},
 	"rotated": false,
 	"trimmed": true,
@@ -105,7 +105,7 @@
 	"sourceSize": {"w":32,"h":32}
 },
 {
-	"filename": "waterWorship_2.png",
+	"filename": "shroomWorship_2.png",
 	"frame": {"x":42,"y":2,"w":16,"h":22},
 	"rotated": false,
 	"trimmed": true,
@@ -113,7 +113,7 @@
 	"sourceSize": {"w":32,"h":32}
 },
 {
-	"filename": "waterWorship_3.png",
+	"filename": "shroomWorship_3.png",
 	"frame": {"x":2,"y":2,"w":18,"h":22},
 	"rotated": false,
 	"trimmed": true,

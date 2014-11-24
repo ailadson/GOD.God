@@ -1,5 +1,6 @@
 GOD.Hub = function(engine){
 	this.engine = engine;
+	this.game = engine.game;
 	this.container = document.getElementById('hub');
 	this.controller = new GOD.ControllerManager(this);
 	this.word = new GOD.WordManager(this);
@@ -7,10 +8,22 @@ GOD.Hub = function(engine){
 	this.currentController;
 }
 
-GOD.Hub.prototype.init = function(name){
-	//this.clearDom();
+GOD.Hub.prototype.init = function(){
+	this.setUpStyle();
+}
+
+GOD.Hub.prototype.start = function(name,state){
+	this.engine.currentState = state;
+	this.clearDom();
+	
 	this.controller[name].setDom(this.container,this);
+
 	this.currentController = name;
+}
+
+GOD.Hub.prototype.setUpStyle = function(){
+	var nodes = document.getElementsByTagName("canvas");
+	this.container.style.cssText = nodes[0].style.cssText;
 }
 
 GOD.Hub.prototype.clearDom = function(){
